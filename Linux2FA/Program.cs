@@ -17,15 +17,30 @@ namespace Linux2FA
         private static TelegramBotClient botClient;
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
         
-        private const long ChatId = 0; // Укажите ID пользователя Telegram
-        private const string botToken = ""; // Замените на токен вашего бота
+        private static long ChatId = 0; // Укажите ID пользователя Telegram
+        private static string botToken = ""; // Замените на токен вашего бота
         private static CancellationTokenSource confirmationTimeoutCts = new CancellationTokenSource(); // Для таймера
         private static bool UpdateSent = false;
         [Obsolete]
         private static void Main(string[] args)
         {
-            Init();
-            Console.ReadLine();
+            if (args.Length != 2) 
+            {
+                Console.WriteLine("Usage: ./Linux2FA [bot_token] [admin_chat_id]");
+                Environment.Exit(1);
+            }
+            if (long.TryParse(args[1], out ChatId))
+            {
+                botToken = args[0];
+                Init();
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Option [admin_chat_id] must be a LONG value (digit)");
+                Environment.Exit(1);
+            }
+
         }
 
         [Obsolete]
