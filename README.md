@@ -236,15 +236,14 @@ function PrintMOTd () {
 # Основная логика скрипта
 ###########################################
 tput clear
-# Проверяем на всякий, что мы вошли не по SSH
-# Если это так, то двухфакторка не должна действовать
-# - иначе есть риск проебать доступ к серверу 
 if [[ "$(echo $JIST_PRINT_MOTD)" == "true" ]]; then
     PrintMOTd /srv/LinuxAuthorizer/img/type4.jpg
     echo -e "Успешный вход пользователя \e[7;36;40m    $(whoami)    \e[0m на хост \e[1;36;40m$(hostname)\e[0m"
     return 0
 fi
-
+# Проверяем на всякий, что мы вошли не по SSH
+# Если это так, то двухфакторка не должна действовать
+# - иначе есть риск проебать доступ к серверу 
 if [[ "$(who am i | grep 'pts')" == "" ]]; then
     PrintMOTd /srv/LinuxAuthorizer/img/welcome-home.jpg
     echo -E "Добро пожаловать домой"
